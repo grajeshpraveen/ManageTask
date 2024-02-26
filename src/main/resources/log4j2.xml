@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+    <!-- Define custom log levels -->
+    <Properties>
+        <Property name="APP_LOG_ROOT">C:/MyLoggFiles</Property>
+    </Properties>
+
+    <!-- Custom log levels -->
+    <CustomLevels>
+        <CustomLevel name="REPORTS" intLevel="350"/>
+        <CustomLevel name="SECURITY" intLevel="550"/>
+    </CustomLevels>
+
+    <!-- Define appenders for both console and file -->
+    <Appenders>
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %-7level %logger{36} - %msg%n"/>
+        </Console>
+
+
+        <!-- Rolling File Appender -->
+        <RollingFile name="appLog"
+                     fileName="${APP_LOG_ROOT}/app.log"
+                     filePattern="${APP_LOG_ROOT}/app.%d{yyyy-MM-dd}.%i.log">
+            <PatternLayout pattern="%d %-7level %logger{36} - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+    </Appenders>
+
+    <!-- Configure loggers to use both appenders -->
+    <Loggers>
+        <!-- Console Logger -->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <!-- File Logger -->
+        <Logger name="com.managetask" level="info" additivity="false">
+            <AppenderRef ref="appLog"/>
+        </Logger>
+    </Loggers>
+</Configuration>
